@@ -123,19 +123,42 @@ def get_file_path(upload_obj) -> Optional[Path]:
     return None
 
 
-# Load available sample dictionary
+# Load available sample dictionary (3 Apple iPhone + 3 Google Pixel)
 SAMPLES = {}
 
-default_raw = ROOT / "demo/sample_data/sample_iphone_raw.mat"
-default_meta = ROOT / "demo/sample_data/sample_iphone_metadata.mat"
-default_noisy = ROOT / "demo/sample_data/sample_iphone_noisy.png"
-if default_raw.is_file() and default_meta.is_file():
-    SAMPLES["Apple iPhone 7 (ISO 100, Held-Out Test Capture)"] = {
-        "raw_path": default_raw,
-        "meta_path": default_meta,
-        "noisy_srgb": default_noisy,
-        "gt_srgb": None,
-    }
+SAMPLE_CONFIGS = [
+    ("Apple iPhone 7 (ISO 100 - Clean Studio)", "iphone_iso100"),
+    ("Apple iPhone 7 (ISO 800 - Indoor Ambient)", "iphone_iso800"),
+    ("Apple iPhone 7 (ISO 1600 - Low-Light Dark Scene)", "iphone_iso1600"),
+    ("Google Pixel (ISO 100 - Clean Daylight)", "pixel_iso100"),
+    ("Google Pixel (ISO 800 - Indoor Ambient)", "pixel_iso800"),
+    ("Google Pixel (ISO 1600 - Low-Light Dark Scene)", "pixel_iso1600"),
+]
+
+for label, prefix in SAMPLE_CONFIGS:
+    r_path = ROOT / f"demo/sample_data/{prefix}_raw.mat"
+    m_path = ROOT / f"demo/sample_data/{prefix}_metadata.mat"
+    n_path = ROOT / f"demo/sample_data/{prefix}_noisy.png"
+    if r_path.is_file() and m_path.is_file():
+        SAMPLES[label] = {
+            "raw_path": r_path,
+            "meta_path": m_path,
+            "noisy_srgb": n_path if n_path.is_file() else None,
+            "gt_srgb": None,
+        }
+
+# Fallback to legacy default if needed
+if not SAMPLES:
+    default_raw = ROOT / "demo/sample_data/sample_iphone_raw.mat"
+    default_meta = ROOT / "demo/sample_data/sample_iphone_metadata.mat"
+    default_noisy = ROOT / "demo/sample_data/sample_iphone_noisy.png"
+    if default_raw.is_file() and default_meta.is_file():
+        SAMPLES["Apple iPhone 7 (ISO 100, Held-Out Test Capture)"] = {
+            "raw_path": default_raw,
+            "meta_path": default_meta,
+            "noisy_srgb": default_noisy,
+            "gt_srgb": None,
+        }
 
 inv_path = ROOT / "data/manifests/sidd_cc_expanded_pair_inventory.csv"
 if inv_path.is_file():
@@ -148,12 +171,13 @@ if inv_path.is_file():
                 if raw_path.is_file() and meta_path.is_file():
                     cam = "Apple iPhone" if row["camera"] == "IP" else "Google Pixel"
                     label = f"{cam} (ISO {row['iso']}, Pair #{row['pair_index']})"
-                    SAMPLES[label] = {
-                        "raw_path": raw_path,
-                        "meta_path": meta_path,
-                        "noisy_srgb": ROOT / row["srgb_noisy"],
-                        "gt_srgb": ROOT / row["srgb_gt"],
-                    }
+                    if label not in SAMPLES:
+                        SAMPLES[label] = {
+                            "raw_path": raw_path,
+                            "meta_path": meta_path,
+                            "noisy_srgb": ROOT / row["srgb_noisy"],
+                            "gt_srgb": ROOT / row["srgb_gt"],
+                        }
 
 
 @spaces.GPU
