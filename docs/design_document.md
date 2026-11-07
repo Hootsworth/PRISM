@@ -1,6 +1,17 @@
 # PRISM: Physics-Guided Reconstruction Inspection and Sensor Monitoring
 ## Comprehensive Design Document (Problem Statement 2: Intelligent Smartphone ISP)
 
+**Team ID**: **T37**  
+**Team Members**:
+- Aditya P Dixit (`1RUA24CSE0023`)
+- Aditya Pujari (`1RUA24CSE0024`)
+- Adarsh Suri (`1RUA24CSE0012`)
+- Aditya Anandh (`1RUA24CSE0020`)
+- Ananya Pramod Kulkarni (`1RUA24CSE0047`)
+
+**Hackathon**: Computer Vision Hackathon 2026 — Problem Statement 2 (P2)  
+**Evaluation File**: [`eval_P2_T37.md`](../eval_P2_T37.md)
+
 ---
 
 ## 1. Problem Statement

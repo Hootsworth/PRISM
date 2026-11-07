@@ -1,13 +1,22 @@
-USN1, USN2, USN3, USN4
+1RUA24CSE0023, 1RUA24CSE0024, 1RUA24CSE0012, 1RUA24CSE0020, 1RUA24CSE0047
 # Comparative Evaluation Report: Problem Statement 2 (P2)
 ## PRISM: Intelligent and Computationally Efficient Smartphone ISP
-**Team ID**: T01  
-**Run ID**: `PRISM-P6-COMP-MPS-FULL-20261107-001`  
-**Evaluation Protocol**: 14 held-out full-frame 12 MP images across 7 scenes (Scenes 009 & 010; Apple iPhone & Google Pixel), 10 interleaved round-robin repetitions per configuration on Apple Silicon GPU (MPS).
+
+- **Problem ID**: P2 (Intelligent Smartphone ISP)
+- **Team ID**: T37
+- **Team Members & USNs**:
+  - Aditya P Dixit (`1RUA24CSE0023`)
+  - Aditya Pujari (`1RUA24CSE0024`)
+  - Adarsh Suri (`1RUA24CSE0012`)
+  - Aditya Anandh (`1RUA24CSE0020`)
+  - Ananya Pramod Kulkarni (`1RUA24CSE0047`)
+- **Institution / Hackathon**: Computer Vision Hackathon 2026
+- **Evaluation Run ID**: `PRISM-P6-COMP-MPS-FULL-20261107-001`
+- **Evaluation Protocol**: 14 held-out full-frame 12 MP images across 7 scenes (Scenes 009 & 010; Apple iPhone & Google Pixel), 10 interleaved round-robin repetitions per configuration on Apple Silicon GPU (Metal Performance Shaders).
 
 ---
 
-## 1. Summary Metrics Comparison (Required Order)
+## 1. Primary Metrics Comparison (Strict P2 Document Order)
 
 | Metric | B0 Classical Baseline | B1 Learned Baseline (U-Net) | B2 PRISM Hybrid (5% Budget) | B2 PRISM Hybrid (10% Budget) |
 |---|---|---|---|---|
@@ -41,8 +50,8 @@ USN1, USN2, USN3, USN4
 ---
 
 ## 3. Hardware & Experimental Metadata
-- **Split**: Locked `internal_test` (14 paired test images, 7 scenes).
+- **Split**: Locked `internal_test` (14 paired full-frame test images across 7 scene groups).
 - **Split Hash (SHA-256)**: `9e93f75071fb3fc4bf5e2c0e0ab127cc90104caafe231dda83f2a2d388ec441c`.
 - **Model Checkpoint**: `experiments/P3/runs/B1-contract100-mps-20261106-002/best.pt` (Epoch 45).
-- **Hardware Platform**: Apple Silicon M-series GPU via PyTorch Metal Performance Shaders (`mps`).
-- **Data Domain**: Unclipped 32-bit floating point sensor linear to standard display sRGB.
+- **Checkpoint SHA-256**: `6010a29a5efbb03761161a2e92ff82fac8b6df4f69a8d8d907860ada22f640cd`.
+- **Device & Precision**: Apple Silicon MPS GPU, 32-bit floating point unclipped sensor processing.
