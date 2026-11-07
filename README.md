@@ -86,11 +86,17 @@ Evaluated under the pre-registered protocol on **14 paired full-frame 12 MP imag
 
 ## 🚀 Quick Start & Interactive Demo
 
-The project includes an interactive web application with:
-- **Split-slider** & **side-by-side** comparison viewers.
-- **3-Way Comparison view**: Non-Processed Raw Noisy Sensor Capture vs. Standard Camera ($B_0$) vs. PRISM Smart Camera ($B_2$).
-- Real-time **AI Focus Heatmap** and tile routing overlay.
-- Automatic **85% High Acutance & Sharpness** enhancement.
+[![Live Demo on Hugging Face](https://img.shields.io/badge/🤗%20Hugging%20Face-Live%20Demo%20Space-yellow?style=for-the-badge)](https://huggingface.co/spaces/Hootsgotgrooves/PRISM)
+
+Try the live online demo instantly on Hugging Face Spaces:  
+👉 **[https://huggingface.co/spaces/Hootsgotgrooves/PRISM](https://huggingface.co/spaces/Hootsgotgrooves/PRISM)**
+
+The interactive application allows evaluators to:
+- **Test Pre-loaded Sensor Captures**: Verified held-out 12 MP captures from Apple iPhone and Google Pixel sensors.
+- **Upload Any Custom Photo**: Upload any noisy, blurry, or low-light photograph (`.jpg`, `.png`, `.webp`) or sensor Bayer RAW (`.mat`).
+- **3-Way Side-by-Side Comparison**: Non-Processed Original vs. Standard Camera ($B_0$) vs. PRISM Smart Camera ($B_2$).
+- **AI Focus Heatmap**: Real-time visualization of sensor consistency residuals and high-frequency restoration regions.
+- **85% Auto-Optimized Enhanced Acutance**: Sub-pixel photographic sharpening and edge refinement.
 
 ### Running the Application:
 ```bash
