@@ -74,6 +74,5 @@ Thumbs.db
 *.synctex.gz
 missfont.log
 
-# Scratch AI Prompts and Rubrics
+# Scratch AI Prompts
 *MASTER_AI_BUILD_PROMPT*.md
-eval_P2_*.md
