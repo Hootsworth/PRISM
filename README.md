@@ -1,3 +1,13 @@
+---
+title: PRISM Smart Camera ISP
+emoji: 📷
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # PRISM: Physics-Guided Reconstruction Inspection and Sensor Monitoring
 ### Intelligent and Computationally Efficient Smartphone Image Signal Processor (ISP)
 
