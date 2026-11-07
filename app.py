@@ -24,22 +24,35 @@ from prism.data.b1_packing import pack_bayer
 from prism.hybrid.pipeline_b2 import run_b2
 from prism.audit.sensor_audit import TileState
 
+try:
+    import spaces
+except ImportError:
+    class spaces:
+        @staticmethod
+        def GPU(fn=None, **kwargs):
+            if fn is None:
+                return lambda f: f
+            return fn
+
 _DEVICE = torch.device("mps" if torch.backends.mps.is_available() else ("cuda" if torch.cuda.is_available() else "cpu"))
 _MODEL = None
 _CKPT_PATH = ROOT / "experiments/P3/runs/B1-contract100-mps-20261106-002/best.pt"
 
 
-def get_model():
+def get_model(device: Optional[torch.device] = None):
     global _MODEL
+    dev = device or _DEVICE
     if _MODEL is None and _CKPT_PATH.is_file():
         m = B1PackedUNet(in_channels=4, out_channels=3)
-        ckpt = torch.load(_CKPT_PATH, map_location=_DEVICE)
+        ckpt = torch.load(_CKPT_PATH, map_location=dev)
         state_dict = ckpt["model_state_dict"] if "model_state_dict" in ckpt else ckpt
         clean_sd = {k.replace("module.", ""): v for k, v in state_dict.items()}
         m.load_state_dict(clean_sd)
-        m.to(_DEVICE)
+        m.to(dev)
         m.eval()
         _MODEL = m
+    elif _MODEL is not None and device is not None:
+        _MODEL.to(device)
     return _MODEL
 
 
@@ -123,14 +136,16 @@ if inv_path.is_file():
                     }
 
 
+@spaces.GPU
 def process_prism(
     sample_choice: str,
     custom_upload,
     pipeline_mode: str,
     budget: float,
 ):
+    device = torch.device("cuda" if torch.cuda.is_available() else ("mps" if torch.backends.mps.is_available() else "cpu"))
     t0 = time.perf_counter()
-    model = get_model()
+    model = get_model(device)
     is_standard_photo = False
 
     if custom_upload is not None:
@@ -189,7 +204,7 @@ def process_prism(
         if model is not None:
             packed = torch.from_numpy(pack_bayer(mosaic))
             with torch.inference_mode():
-                pred_t = predict_tiled(model, packed, tile_sensor=1024, overlap_sensor=128, device=_DEVICE)
+                pred_t = predict_tiled(model, packed, tile_sensor=1024, overlap_sensor=128, device=device)
             raw_neural = pred_t.permute(1, 2, 0).cpu().numpy()
             raw_neural = np.clip(raw_neural, 0.0, 1.0)
 
@@ -226,7 +241,7 @@ def process_prism(
 - **Input Type**: Standard Photograph (`{raw_path.suffix.upper()}`)
 - **Resolution**: {w_even} × {h_even} px
 - **Physics Linearization**: Inverse Gamma $\\gamma=2.2$ Radiance Unprocessing & RGGB Mosaicing
-- **Device**: `{_DEVICE}` (Apple Silicon MPS / CUDA / CPU)
+- **Device**: `{device}` (NVIDIA A10G Tensor Core / Apple Silicon MPS / CPU)
 - **Processing Time**: **{elapsed:.2f} s**
 - **Neural Restoration**: BayerUNet Active Denoising & Deblurring
 - **Edge Acutance & Sharpness**: **85% Auto-Optimized Enhanced Acutance**
@@ -260,7 +275,7 @@ def process_prism(
         # Full neural inference
         packed = torch.from_numpy(pack_bayer(frame.mosaic))
         with torch.inference_mode():
-            pred_t = predict_tiled(model, packed, tile_sensor=1024, overlap_sensor=128, device=_DEVICE)
+            pred_t = predict_tiled(model, packed, tile_sensor=1024, overlap_sensor=128, device=device)
         raw_neural = pred_t.permute(1, 2, 0).cpu().numpy()
         raw_neural = np.clip(raw_neural, 0.0, 1.0)
 
@@ -273,7 +288,7 @@ def process_prism(
 
         # Run Sensor Consistency Audit for Heatmap
         try:
-            b2_result = run_b2(frame, model=model, device=_DEVICE, budget_fraction=budget, tile_sensor_size=256, overlap_sensor=32, allow_uncalibrated_selection=True)
+            b2_result = run_b2(frame, model=model, device=device, budget_fraction=budget, tile_sensor_size=256, overlap_sensor=32, allow_uncalibrated_selection=True)
             heatmap_pil = generate_heatmap(frame, b2_result)
         except Exception:
             heatmap_pil = None
@@ -291,7 +306,7 @@ def process_prism(
 
     telemetry = f"""
 ### ⚡ Execution Telemetry (Sensor RAW Mode)
-- **Device**: `{_DEVICE}` (Apple Silicon MPS / CUDA / CPU)
+- **Device**: `{device}` (NVIDIA A10G Tensor Core / Apple Silicon MPS / CPU)
 - **Processing Time**: **{elapsed:.2f} s**
 - **PSNR vs Ground Truth**: **{psnr_val}**
 - **Neural Compute Saved**: **{compute_saved}** (13.07 GMACs vs 383.53 GMACs)
