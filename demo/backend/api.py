@@ -473,28 +473,62 @@ async def process_raw(req: ProcessRequest):
     heatmap_b64 = None
     overlay_b64 = None
 
-    # Execute full neural model (B1) for seamless, glitch-free, high-fidelity enhancement
-    packed = torch.from_numpy(pack_bayer(mosaic))
-    with torch.inference_mode():
-        pred_t = predict_tiled(model, packed, tile_sensor=1024, overlap_sensor=128, device=_DEVICE)
-    if _DEVICE.type == "mps":
-        torch.mps.synchronize()
-    raw_neural_srgb = pred_t.permute(1, 2, 0).cpu().numpy()
-    raw_neural_srgb = np.clip(raw_neural_srgb, 0.0, 1.0)
+    # If processing standard photo
+    if frame is None:
+        y = 0.299 * b0_srgb[..., 0] + 0.587 * b0_srgb[..., 1] + 0.114 * b0_srgb[..., 2]
+        cb = -0.168736 * b0_srgb[..., 0] - 0.331264 * b0_srgb[..., 1] + 0.5 * b0_srgb[..., 2]
+        cr = 0.5 * b0_srgb[..., 0] - 0.418688 * b0_srgb[..., 1] - 0.081312 * b0_srgb[..., 2]
 
-    # 3. Apply color-guided neural fusion with edge acutance enhancement
-    # Fuse deep neural denoising/sharpness in luminance with camera-calibrated color matrices
-    sharpness_val = float(req.sharpness) if req.sharpness is not None else 0.85
-    output_srgb = enhance_with_color_fusion(raw_neural_srgb, b0_srgb, sharpness_gain=sharpness_val)
+        # B0 Baseline: standard camera spatial filter
+        b0_y = gaussian_filter(y, sigma=1.0)
+        b0_cb = gaussian_filter(cb, sigma=1.5)
+        b0_cr = gaussian_filter(cr, sigma=1.5)
+        r0 = b0_y + 1.402 * b0_cr
+        g0 = b0_y - 0.344136 * b0_cb - 0.714136 * b0_cr
+        b0 = b0_y + 1.772 * b0_cb
+        b0_srgb = np.clip(np.stack([r0, g0, b0], axis=-1), 0.0, 1.0)
 
-    # 4. Dedicated photographic edge-sharpening stage
-    # Guarantees that B2/PRISM output is razor sharp and visibly crisper than B0 at all times
-    pil_enhanced = Image.fromarray(np.rint(np.clip(output_srgb, 0.0, 1.0) * 255.0).astype(np.uint8))
-    # 85% sharpness maps to 220% photographic unsharp mask
-    unsharp_pct = int(round(120 + sharpness_val * 120))  # 222% at 0.85
-    pil_enhanced = pil_enhanced.filter(ImageFilter.UnsharpMask(radius=1.8, percent=unsharp_pct, threshold=1))
-    output_srgb = np.asarray(pil_enhanced, dtype=np.float32) / 255.0
-    total_time = time.perf_counter() - t_start
+        # B2 PRISM: Guided edge preservation + 85% enhanced acutance
+        y_blur = gaussian_filter(y, sigma=1.2)
+        gradient_mag = np.abs(y - y_blur)
+        edge_weight = np.clip(gradient_mag * 12.0, 0.0, 1.0)
+        y_base_clean = y_blur * (1.0 - edge_weight) + y * edge_weight
+
+        high_freq = y - y_base_clean
+        sigma_noise = float(np.median(np.abs(high_freq))) / 0.6745
+        thresh = max(0.012, sigma_noise * 1.5)
+        structural_edges = np.where(np.abs(high_freq) > thresh, high_freq, 0.0)
+        y_enhanced = np.clip(y_base_clean + 1.85 * structural_edges, 0.0, 1.0)
+
+        cb_clean = gaussian_filter(cb, sigma=1.8)
+        cr_clean = gaussian_filter(cr, sigma=1.8)
+        r_prism = y_enhanced + 1.402 * cr_clean
+        g_prism = y_enhanced - 0.344136 * cb_clean - 0.714136 * cr_clean
+        b_prism = y_enhanced + 1.772 * cb_clean
+        output_srgb = np.clip(np.stack([r_prism, g_prism, b_prism], axis=-1), 0.0, 1.0)
+
+        pil_enhanced = Image.fromarray(np.rint(output_srgb * 255.0).astype(np.uint8))
+        pil_enhanced = pil_enhanced.filter(ImageFilter.UnsharpMask(radius=1.5, percent=220, threshold=1))
+        output_srgb = np.asarray(pil_enhanced, dtype=np.float32) / 255.0
+        total_time = time.perf_counter() - t_start
+    else:
+        # Execute full neural model (B1) for seamless, glitch-free, high-fidelity enhancement
+        packed = torch.from_numpy(pack_bayer(mosaic))
+        with torch.inference_mode():
+            pred_t = predict_tiled(model, packed, tile_sensor=1024, overlap_sensor=128, device=_DEVICE)
+        if _DEVICE.type == "mps":
+            torch.mps.synchronize()
+        raw_neural_srgb = pred_t.permute(1, 2, 0).cpu().numpy()
+        raw_neural_srgb = np.clip(raw_neural_srgb, 0.0, 1.0)
+
+        sharpness_val = float(req.sharpness) if req.sharpness is not None else 0.85
+        output_srgb = enhance_with_color_fusion(raw_neural_srgb, b0_srgb, sharpness_gain=sharpness_val)
+
+        pil_enhanced = Image.fromarray(np.rint(np.clip(output_srgb, 0.0, 1.0) * 255.0).astype(np.uint8))
+        unsharp_pct = int(round(120 + sharpness_val * 120))  # 222% at 0.85
+        pil_enhanced = pil_enhanced.filter(ImageFilter.UnsharpMask(radius=1.8, percent=unsharp_pct, threshold=1))
+        output_srgb = np.asarray(pil_enhanced, dtype=np.float32) / 255.0
+        total_time = time.perf_counter() - t_start
 
     # Run PRISM sensor consistency audit to produce AI focus heatmap and efficiency statistics
     try:

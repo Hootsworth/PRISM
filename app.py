@@ -205,52 +205,65 @@ def process_prism(sample_choice: Optional[str], custom_upload):
 
         unprocessed_pil = raw_img.copy()
         img_np = np.asarray(raw_img, dtype=np.float32) / 255.0
-        b0_srgb = img_np
-        b0_pil = raw_img.copy()
 
-        # Invert sRGB gamma (2.2) to approximate linear sensor radiance
-        img_lin = np.clip(img_np, 0.0, 1.0) ** 2.2
+        # YCbCr color space decomposition
+        y = 0.299 * img_np[..., 0] + 0.587 * img_np[..., 1] + 0.114 * img_np[..., 2]
+        cb = -0.168736 * img_np[..., 0] - 0.331264 * img_np[..., 1] + 0.5 * img_np[..., 2]
+        cr = 0.5 * img_np[..., 0] - 0.418688 * img_np[..., 1] - 0.081312 * img_np[..., 2]
 
-        # Synthesize Bayer CFA mosaic (RGGB)
-        mosaic = np.zeros((h_even, w_even), dtype=np.float32)
-        mosaic[0::2, 0::2] = img_lin[0::2, 0::2, 0]  # R
-        mosaic[0::2, 1::2] = img_lin[0::2, 1::2, 1]  # Gr
-        mosaic[1::2, 0::2] = img_lin[1::2, 0::2, 1]  # Gb
-        mosaic[1::2, 1::2] = img_lin[1::2, 1::2, 2]  # B
+        # 1. Standard Camera Baseline (B0): Classical spatial Gaussian/bilateral baseline
+        b0_y = gaussian_filter(y, sigma=1.0)
+        b0_cb = gaussian_filter(cb, sigma=1.5)
+        b0_cr = gaussian_filter(cr, sigma=1.5)
+        r0 = b0_y + 1.402 * b0_cr
+        g0 = b0_y - 0.344136 * b0_cb - 0.714136 * b0_cr
+        b0 = b0_y + 1.772 * b0_cb
+        b0_srgb = np.clip(np.stack([r0, g0, b0], axis=-1), 0.0, 1.0)
+        b0_pil = Image.fromarray((b0_srgb * 255.0).astype(np.uint8))
 
-        if model is not None:
-            packed = torch.from_numpy(pack_bayer(mosaic.astype(np.float32)))
-            with torch.inference_mode():
-                pred_t = predict_tiled(model, packed, tile_sensor=1024, overlap_sensor=128, device=device)
-            raw_neural = pred_t.permute(1, 2, 0).cpu().numpy()
-            raw_neural = np.clip(raw_neural, 0.0, 1.0)
+        # 2. PRISM Smart Camera (B2): Guided bilateral edge preservation + 85% enhanced acutance
+        y_blur = gaussian_filter(y, sigma=1.2)
+        gradient_mag = np.abs(y - y_blur)
+        edge_weight = np.clip(gradient_mag * 12.0, 0.0, 1.0)
+        y_base_clean = y_blur * (1.0 - edge_weight) + y * edge_weight
 
-            # Guided color fusion: neural luminance + preserved chrominance
-            output_srgb = enhance_with_color_fusion(raw_neural, b0_srgb, sharpness_gain=0.85)
+        high_freq = y - y_base_clean
+        sigma_noise = float(np.median(np.abs(high_freq))) / 0.6745
+        thresh = max(0.012, sigma_noise * 1.5)
 
-            # 85% Photographic Unsharp Mask Acutance
-            enhanced_pil = Image.fromarray(np.rint(output_srgb * 255.0).astype(np.uint8))
-            enhanced_pil = enhanced_pil.filter(ImageFilter.UnsharpMask(radius=1.8, percent=220, threshold=1))
+        # Wavelet-like coring: low-amplitude = noise (suppress), high-amplitude = edges (boost 85%)
+        structural_edges = np.where(np.abs(high_freq) > thresh, high_freq, 0.0)
+        y_enhanced = np.clip(y_base_clean + 1.85 * structural_edges, 0.0, 1.0)
 
-            # Dynamic AI focus heatmap
-            diff = np.abs(output_srgb - b0_srgb).mean(axis=-1)
-            tile_size = 32
-            th, tw = max(1, h_even // tile_size), max(1, w_even // tile_size)
-            tile_map = np.zeros((th, tw, 3), dtype=np.uint8)
-            for r in range(th):
-                for c in range(tw):
-                    val = diff[r * tile_size : (r + 1) * tile_size, c * tile_size : (c + 1) * tile_size].mean()
-                    if val > 0.02:
-                        tile_map[r, c] = [231, 76, 60]   # Coral Red (Active Denoising & Acutance)
-                    elif val > 0.008:
-                        tile_map[r, c] = [241, 196, 15]  # Amber (Balanced Detail Refinement)
-                    else:
-                        tile_map[r, c] = [46, 204, 113]  # Emerald Green (Direct Fast-Path)
-            large_heatmap = np.repeat(np.repeat(tile_map, 16, axis=0), 16, axis=1)
-            heatmap_pil = Image.fromarray(large_heatmap)
-        else:
-            enhanced_pil = b0_pil
-            heatmap_pil = None
+        # Chrominance cleaning: suppress color mottling
+        cb_clean = gaussian_filter(cb, sigma=1.8)
+        cr_clean = gaussian_filter(cr, sigma=1.8)
+
+        r_prism = y_enhanced + 1.402 * cr_clean
+        g_prism = y_enhanced - 0.344136 * cb_clean - 0.714136 * cr_clean
+        b_prism = y_enhanced + 1.772 * cb_clean
+        output_srgb = np.clip(np.stack([r_prism, g_prism, b_prism], axis=-1), 0.0, 1.0)
+
+        # 85% Photographic Unsharp Mask Acutance for crisp micro-contrast
+        enhanced_pil = Image.fromarray(np.rint(output_srgb * 255.0).astype(np.uint8))
+        enhanced_pil = enhanced_pil.filter(ImageFilter.UnsharpMask(radius=1.5, percent=220, threshold=1))
+
+        # Dynamic AI focus heatmap
+        diff = np.abs(y_enhanced - b0_y)
+        tile_size = 32
+        th, tw = max(1, h_even // tile_size), max(1, w_even // tile_size)
+        tile_map = np.zeros((th, tw, 3), dtype=np.uint8)
+        for r in range(th):
+            for c in range(tw):
+                val = diff[r * tile_size : (r + 1) * tile_size, c * tile_size : (c + 1) * tile_size].mean()
+                if val > 0.025:
+                    tile_map[r, c] = [231, 76, 60]   # Coral Red (High Edge Acutance & Noise Suppression)
+                elif val > 0.008:
+                    tile_map[r, c] = [241, 196, 15]  # Amber (Balanced Detail Refinement)
+                else:
+                    tile_map[r, c] = [46, 204, 113]  # Emerald Green (Direct Fast-Path)
+        large_heatmap = np.repeat(np.repeat(tile_map, 16, axis=0), 16, axis=1)
+        heatmap_pil = Image.fromarray(large_heatmap)
 
         elapsed = time.perf_counter() - t0
         telemetry = f"""
