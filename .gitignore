@@ -36,6 +36,11 @@ data/processed/
 *.dng
 *.DNG
 
+# Allow built-in demo samples for cloud deployment
+!demo/sample_data/*.mat
+!demo/sample_data/*.MAT
+!demo/sample_data/*.png
+
 # Large evaluation image renders (Summary JSONs and CSVs are tracked)
 experiments/P2/
 experiments/P3/evaluations/**/images/
