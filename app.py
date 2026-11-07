@@ -44,7 +44,7 @@ def get_model(device: Optional[torch.device] = None):
     dev = device or _DEVICE
     if _MODEL is None and _CKPT_PATH.is_file():
         m = B1PackedUNet()  # B1PackedUNet takes no kwargs
-        ckpt = torch.load(_CKPT_PATH, map_location=dev)
+        ckpt = torch.load(_CKPT_PATH, map_location=dev, weights_only=False)
         state_dict = ckpt["model_state_dict"] if "model_state_dict" in ckpt else ckpt
         clean_sd = {k.replace("module.", ""): v for k, v in state_dict.items()}
         m.load_state_dict(clean_sd)
