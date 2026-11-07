@@ -63,3 +63,17 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+
+# LaTeX compilation byproducts
+*.aux
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
+*.synctex.gz
+missfont.log
+
+# Scratch AI Prompts and Rubrics
+*MASTER_AI_BUILD_PROMPT*.md
+eval_P2_*.md
