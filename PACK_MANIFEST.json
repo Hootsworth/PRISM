@@ -1,0 +1,18 @@
+{
+  "project": "PRISM",
+  "problem_id": "P2",
+  "files": [
+    "README.md",
+    "00_P2_REQUIREMENTS_TRACEABILITY.md",
+    "01_ARCHITECTURE.md",
+    "02_DATASET_AND_DATA_CONTRACT.md",
+    "03_ROADMAP_AND_PROJECT_LEDGER.md",
+    "04_RESEARCH_HYPOTHESES_AND_KPIS.md",
+    "05_TESTING_AND_EVALUATION.md",
+    "06_APPLICATION_AND_SUBMISSION.md",
+    "07_MASTER_AI_BUILD_PROMPT.md",
+    "PROJECT_LEDGER.md"
+  ],
+  "created_for": "Computer Vision Hackathon 2026 P2",
+  "status": "implementation specification; no experimental results claimed"
+}

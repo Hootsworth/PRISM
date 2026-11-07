@@ -1,0 +1,58 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{karaimer2016software}
+\citation{ronneberger2015u}
+\citation{ignatov2020pynet}
+\citation{schwartz2018deepisp}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\citation{karaimer2016software,hesterstein2020revisiting}
+\citation{malvar2004high}
+\citation{ebner2007color}
+\citation{reinhard2002photographic}
+\citation{schwartz2018deepisp}
+\citation{chen2018learning}
+\citation{ignatov2020pynet}
+\citation{figurnov2017spatially,wang2018skipnet}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{2}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Classical Digital Camera Pipelines}{2}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Learned RAW-to-RGB Mapping}{2}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Selective and Dynamic Compute Allocation}{2}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}System Architecture}{2}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Classical Fast Path ($B_0$)}{2}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Physics-Calibrated Sensor-Consistency Audit}{2}{subsection.3.2}\protected@file@percent }
+\citation{abdelhamed2018high}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Adaptive Budget Scheduler}{3}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Guided Color Fusion: Eliminating Chrominance Collapse}{3}{subsection.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Experimental Methodology}{3}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Dataset Contract and Split Integrity}{3}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Model Architecture and Checkpoint Freeze}{3}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Benchmarking Protocol}{3}{subsection.4.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Architectural overview of PRISM ($B_2$). The classical path reconstructs full-frame camera-linear RGB, audited against physical CFA noise statistics. Only anomalous tiles are scheduled for neural refinement, where Guided Color Fusion ensures complete color consistency across all tile seams.}}{4}{figure.1}\protected@file@percent }
+\newlabel{fig:architecture}{{1}{4}{Architectural overview of PRISM ($B_2$). The classical path reconstructs full-frame camera-linear RGB, audited against physical CFA noise statistics. Only anomalous tiles are scheduled for neural refinement, where Guided Color Fusion ensures complete color consistency across all tile seams}{figure.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Quantitative Results}{4}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Compute vs.\ Quality Pareto Frontier}{4}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Latency Analysis}{4}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Qualitative Analysis}{4}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Resolution of Chrominance Collapse}{4}{subsection.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Artifact-Free Tile Stitching}{4}{subsection.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}Discussion and Limitations}{4}{section.7}\protected@file@percent }
+\bibcite{karaimer2016software}{1}
+\bibcite{ronneberger2015u}{2}
+\bibcite{ignatov2020pynet}{3}
+\bibcite{schwartz2018deepisp}{4}
+\bibcite{chen2018learning}{5}
+\bibcite{hesterstein2020revisiting}{6}
+\bibcite{abdelhamed2018high}{7}
+\bibcite{malvar2004high}{8}
+\bibcite{reinhard2002photographic}{9}
+\bibcite{ebner2007color}{10}
+\bibcite{figurnov2017spatially}{11}
+\bibcite{wang2018skipnet}{12}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Comprehensive quantitative comparison across Classical ($B_0$), Full Neural ($B_1$), and PRISM Hybrid ($B_2$) on the locked 14-image held-out test split (Apple Silicon MPS, 10 interleaved repetitions).}}{5}{table.1}\protected@file@percent }
+\newlabel{tab:main_results}{{1}{5}{Comprehensive quantitative comparison across Classical ($B_0$), Full Neural ($B_1$), and PRISM Hybrid ($B_2$) on the locked 14-image held-out test split (Apple Silicon MPS, 10 interleaved repetitions)}{table.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Per-Scene PSNR Breakdown (dB) across test scene groups.}}{5}{table.2}\protected@file@percent }
+\newlabel{tab:scene_breakdown}{{2}{5}{Per-Scene PSNR Breakdown (dB) across test scene groups}{table.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion}{5}{section.8}\protected@file@percent }
+\gdef \@abspage@last{6}

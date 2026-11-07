@@ -1,0 +1,54 @@
+{
+  "config": {
+    "run_id": "PRISM-P3-B1-20261106-002",
+    "contract_id": "PRISM-P3-B1-CONTRACT-20261106-001",
+    "task": "metadata-free Bayer RAW to SIDD-CC GT_SRGB",
+    "model": "B1PackedUNet",
+    "parameter_count": 357276,
+    "precision": "float32",
+    "seed": 20261106,
+    "device": "mps",
+    "accelerator": "Apple Silicon GPU (MPS)",
+    "threads": 4,
+    "torch": "2.8.0",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "train_split": "train",
+    "validation_split": "validation",
+    "split_manifest_sha256": "9e93f75071fb3fc4bf5e2c0e0ab127cc90104caafe231dda83f2a2d388ec441c",
+    "pair_inventory_sha256": "8090fa23d8c62f827a5d8b79a08b81c12066d20afef2cb300bc772aa0d8baa01",
+    "source_file_manifest_sha256": "42c5c6db7519946e3a73c7060c8f1e84e1f6ac181d47f970ee7052a5367500a8",
+    "source_hash_audit": {
+      "file_count": 1163,
+      "total_bytes": 33262165122
+    },
+    "optimizer": "AdamW",
+    "lr": 0.0003,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "epsilon": 1e-08,
+    "weight_decay": 0.0001,
+    "loss": "MSE on RGB sRGB [0,1]",
+    "batch_size": 8,
+    "crop_size_sensor_px": 256,
+    "augmentation": "uniform D4 applied identically before Bayer repacking",
+    "max_epochs": 100,
+    "scheduler": "CosineAnnealingLR T_max=100 eta_min=1e-6",
+    "early_stopping_patience": 15,
+    "checkpoint_selection": "lowest validation scene-macro MSE; earliest epoch on tie",
+    "validation_tiling": {
+      "tile_sensor_px": 1024,
+      "overlap_sensor_px": 128
+    },
+    "loader_workers": 0,
+    "pin_memory": false
+  },
+  "epochs_completed": 60,
+  "best_epoch": 45,
+  "best_validation_scene_macro_mse": 0.001259807862273495,
+  "best_checkpoint_sha256": "6010a29a5efbb03761161a2e92ff82fac8b6df4f69a8d8d907860ada22f640cd",
+  "last_checkpoint_sha256": "39de35e31f744e6e5490f82d17c3a58d8e91f073ca38dda25c7f5a16a4781978",
+  "peak_process_rss_bytes": 1855307776,
+  "finished_at": "2026-11-07T00:02:31+0530"
+}

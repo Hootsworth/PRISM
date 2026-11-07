@@ -1,0 +1,652 @@
+{
+  "status": "descriptive_internal_test_comparison",
+  "split": "internal_test",
+  "split_column": "split_frozen_scene_grouped",
+  "split_manifest_sha256": "9e93f75071fb3fc4bf5e2c0e0ab127cc90104caafe231dda83f2a2d388ec441c",
+  "pair_inventory_sha256": "8090fa23d8c62f827a5d8b79a08b81c12066d20afef2cb300bc772aa0d8baa01",
+  "source_file_manifest_sha256": "42c5c6db7519946e3a73c7060c8f1e84e1f6ac181d47f970ee7052a5367500a8",
+  "source_hash_audit": {
+    "file_count": 1163,
+    "total_bytes": 33262165122
+  },
+  "sample_ids_sha256": "86bd0a5185d204e004ce5590cac2a07a9899174e620cd1c87f925d890777baef",
+  "checkpoint": "/Users/adityadixit/Downloads/PRISM_P2_Updated_Build_Pack/experiments/P3/runs/B1-contract100-mps-20261106-002/best.pt",
+  "checkpoint_epoch": 45,
+  "checkpoint_sha256": "6010a29a5efbb03761161a2e92ff82fac8b6df4f69a8d8d907860ada22f640cd",
+  "device": "mps",
+  "torch": "2.8.0",
+  "metrics_config_path": "/Users/adityadixit/Downloads/PRISM_P2_Updated_Build_Pack/experiments/P3/B1_METRICS_CONFIG.json",
+  "metrics_config_sha256": "1f99a29eb491020e12a7a2041ddd5bf89f203f1b41c07708be25520ce3246be1",
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "precision": "float32",
+  "metrics_config": {
+    "config_id": "PRISM-P3-METRICS-20261106-001",
+    "target_domain": "display-referred sRGB RGB float32 [0,1]",
+    "psnr": {
+      "data_range": 1.0,
+      "color_space": "sRGB encoded",
+      "aggregation": "image score; mean within instance group; macro mean across 7 internal-test groups"
+    },
+    "ssim": {
+      "implementation": "scipy.ndimage.gaussian_filter luminance-independent per-channel RGB",
+      "gaussian_sigma": 1.5,
+      "gaussian_truncate": 3.5,
+      "k1": 0.01,
+      "k2": 0.03,
+      "boundary": "reflect",
+      "aggregation": "image score; mean within instance group; macro mean across 7 internal-test groups"
+    },
+    "clipping_or_rescaling": "none after model sigmoid; B0 follows the frozen uint8 sRGB renderer",
+    "lpips": "not computed",
+    "delta_e00": "not computed; no calibrated color reference",
+    "torch_threads": 4,
+    "budget_ablations_max_fraction_of_total_tiles": [
+      0.0,
+      0.01,
+      0.03,
+      0.05,
+      0.1,
+      0.25,
+      1.0
+    ],
+    "compute_proxy": "Conv2d MACs from forward hooks; estimated FLOPs=2*MACs; excludes interpolation, activations, B0/audit operations and memory traffic",
+    "timing": {
+      "warmups_per_image_and_model": 1,
+      "measured_repetitions_per_image_and_model": 10,
+      "order": "round-robin interleaved across B0, B1, and all seven B2 budgets",
+      "timed_path": "source file load, decode/validation/packing, model or pipeline, output transfer/stitch",
+      "output_save": "separate PNG encode/write latency; excluded from repeated pipeline timing"
+    }
+  },
+  "timing_protocol": {
+    "warmups_per_image_and_model": 1,
+    "measured_repetitions_per_image_and_model": 10,
+    "method": "file load + decode/validation/pack + model/pipeline; interleaved round-robin; accelerator synchronized"
+  },
+  "output_saving": "PNG encoding/file write measured separately per image/model when --save-images is enabled; not included in pipeline repetitions",
+  "b2_budgets_fraction_of_total_tiles": [
+    0.0,
+    0.01,
+    0.03,
+    0.05,
+    0.1,
+    0.25,
+    1.0
+  ],
+  "compute_proxy": "Conv2d MACs counted by forward hooks; estimated conv FLOPs=2*MACs; excludes B0, audit, interpolation, activations, memory traffic and scheduling",
+  "b2_sensor_audit_note": "noise parameters are uncalibrated; all selected B2 tiles remain UNCERTAIN and selection is an explicit relative-residual experiment, not sensor verification",
+  "models": {
+    "B0_Classical": {
+      "images": 14,
+      "groups": 7,
+      "scene_macro_psnr_db": 26.075117616374,
+      "scene_macro_mse": 0.0027698249814239943,
+      "scene_macro_ssim": 0.5721170774476663,
+      "mean_of_image_median_full_path_seconds": 1.3873334626786,
+      "median_of_image_median_full_path_seconds": 1.3786433019998299,
+      "mean_learned_conv_macs_per_image": 0.0,
+      "mean_estimated_learned_conv_flops_per_image": 0.0,
+      "per_scene": [
+        {
+          "group_id": "0192_009_IP_00100_00200_3200_N",
+          "images": 2,
+          "psnr_db": 25.014845349857794,
+          "mse": 0.003151486752448951,
+          "ssim": 0.7213081021514617
+        },
+        {
+          "group_id": "0194_009_IP_01600_04000_3200_N",
+          "images": 2,
+          "psnr_db": 26.461312519639613,
+          "mse": 0.0022587530553453312,
+          "ssim": 0.4079429319112655
+        },
+        {
+          "group_id": "0195_009_IP_01600_04000_5500_L",
+          "images": 2,
+          "psnr_db": 27.6404533087586,
+          "mse": 0.0017216917446328194,
+          "ssim": 0.38108871414402246
+        },
+        {
+          "group_id": "0196_009_IP_00800_02000_5500_L",
+          "images": 2,
+          "psnr_db": 27.216008285143587,
+          "mse": 0.0018984509823946154,
+          "ssim": 0.40103978897867404
+        },
+        {
+          "group_id": "0197_009_IP_00100_00200_5500_L",
+          "images": 2,
+          "psnr_db": 29.42912093034644,
+          "mse": 0.0011404807238327755,
+          "ssim": 0.5775689534770423
+        },
+        {
+          "group_id": "0198_010_GP_00100_00200_5500_N",
+          "images": 2,
+          "psnr_db": 23.777353185091812,
+          "mse": 0.004190697733278394,
+          "ssim": 0.8915611094607083
+        },
+        {
+          "group_id": "0199_010_GP_00800_01600_5500_N",
+          "images": 2,
+          "psnr_db": 22.98672973578016,
+          "mse": 0.0050272138780350735,
+          "ssim": 0.624309942010489
+        }
+      ]
+    },
+    "B1_Learned": {
+      "images": 14,
+      "groups": 7,
+      "scene_macro_psnr_db": 29.35004632495691,
+      "scene_macro_mse": 0.0021370559351843008,
+      "scene_macro_ssim": 0.8872527032692782,
+      "mean_of_image_median_full_path_seconds": 0.577767613071383,
+      "median_of_image_median_full_path_seconds": 0.5725259892499537,
+      "mean_learned_conv_macs_per_image": 383527157760.0,
+      "mean_estimated_learned_conv_flops_per_image": 767054315520.0,
+      "per_scene": [
+        {
+          "group_id": "0192_009_IP_00100_00200_3200_N",
+          "images": 2,
+          "psnr_db": 25.486403270764782,
+          "mse": 0.0028272205523280263,
+          "ssim": 0.9317592627638558
+        },
+        {
+          "group_id": "0194_009_IP_01600_04000_3200_N",
+          "images": 2,
+          "psnr_db": 31.95280165960457,
+          "mse": 0.0006379114518763552,
+          "ssim": 0.9168927652671854
+        },
+        {
+          "group_id": "0195_009_IP_01600_04000_5500_L",
+          "images": 2,
+          "psnr_db": 34.8506689067994,
+          "mse": 0.00032729214214681447,
+          "ssim": 0.7745589520090808
+        },
+        {
+          "group_id": "0196_009_IP_00800_02000_5500_L",
+          "images": 2,
+          "psnr_db": 34.38470867413087,
+          "mse": 0.00036436089048343925,
+          "ssim": 0.851459852327576
+        },
+        {
+          "group_id": "0197_009_IP_00100_00200_5500_L",
+          "images": 2,
+          "psnr_db": 33.01415573101578,
+          "mse": 0.0004995569356334153,
+          "ssim": 0.9118968877887549
+        },
+        {
+          "group_id": "0198_010_GP_00100_00200_5500_N",
+          "images": 2,
+          "psnr_db": 22.84528041537368,
+          "mse": 0.005193654142892655,
+          "ssim": 0.9140999980127611
+        },
+        {
+          "group_id": "0199_010_GP_00800_01600_5500_N",
+          "images": 2,
+          "psnr_db": 22.91630561700927,
+          "mse": 0.0051093954309294,
+          "ssim": 0.9101012047157337
+        }
+      ]
+    },
+    "B2_budget_000": {
+      "images": 14,
+      "groups": 7,
+      "scene_macro_psnr_db": 26.077459625563186,
+      "scene_macro_mse": 0.002768618468467899,
+      "scene_macro_ssim": 0.5725522153898316,
+      "mean_of_image_median_full_path_seconds": 1.828894007535673,
+      "median_of_image_median_full_path_seconds": 1.8185587922499167,
+      "mean_learned_conv_macs_per_image": 0.0,
+      "mean_estimated_learned_conv_flops_per_image": 0.0,
+      "per_scene": [
+        {
+          "group_id": "0192_009_IP_00100_00200_3200_N",
+          "images": 2,
+          "psnr_db": 25.016596276667833,
+          "mse": 0.003150216444182598,
+          "ssim": 0.7219027364829327
+        },
+        {
+          "group_id": "0194_009_IP_01600_04000_3200_N",
+          "images": 2,
+          "psnr_db": 26.46360901412023,
+          "mse": 0.0022575589743661023,
+          "ssim": 0.4081580420521206
+        },
+        {
+          "group_id": "0195_009_IP_01600_04000_5500_L",
+          "images": 2,
+          "psnr_db": 27.643158585638268,
+          "mse": 0.0017206196076215113,
+          "ssim": 0.38127583261365683
+        },
+        {
+          "group_id": "0196_009_IP_00800_02000_5500_L",
+          "images": 2,
+          "psnr_db": 27.218551893254173,
+          "mse": 0.0018973393776529615,
+          "ssim": 0.40124351448514634
+        },
+        {
+          "group_id": "0197_009_IP_00100_00200_5500_L",
+          "images": 2,
+          "psnr_db": 29.433770364231783,
+          "mse": 0.001139260431896405,
+          "ssim": 0.5780038306731832
+        },
+        {
+          "group_id": "0198_010_GP_00100_00200_5500_N",
+          "images": 2,
+          "psnr_db": 23.77868445080327,
+          "mse": 0.0041894134543005584,
+          "ssim": 0.892505095044405
+        },
+        {
+          "group_id": "0199_010_GP_00800_01600_5500_N",
+          "images": 2,
+          "psnr_db": 22.98784679422673,
+          "mse": 0.005025920989255157,
+          "ssim": 0.6247764563773769
+        }
+      ],
+      "learned_conv_macs_reduction_vs_B1": 1.0
+    },
+    "B2_budget_001": {
+      "images": 14,
+      "groups": 7,
+      "scene_macro_psnr_db": 26.113556101313872,
+      "scene_macro_mse": 0.002737924477783891,
+      "scene_macro_ssim": 0.5735721714967374,
+      "mean_of_image_median_full_path_seconds": 1.6106664761428422,
+      "median_of_image_median_full_path_seconds": 1.650007573250008,
+      "mean_learned_conv_macs_per_image": 2675273142.857143,
+      "mean_estimated_learned_conv_flops_per_image": 5350546285.714286,
+      "per_scene": [
+        {
+          "group_id": "0192_009_IP_00100_00200_3200_N",
+          "images": 2,
+          "psnr_db": 25.062551674064615,
+          "mse": 0.0031170578074259346,
+          "ssim": 0.722397734180091
+        },
+        {
+          "group_id": "0194_009_IP_01600_04000_3200_N",
+          "images": 2,
+          "psnr_db": 26.484525257034534,
+          "mse": 0.0022467124159859042,
+          "ssim": 0.4120180842294424
+        },
+        {
+          "group_id": "0195_009_IP_01600_04000_5500_L",
+          "images": 2,
+          "psnr_db": 27.643158585638268,
+          "mse": 0.0017206196076215113,
+          "ssim": 0.38127583261365683
+        },
+        {
+          "group_id": "0196_009_IP_00800_02000_5500_L",
+          "images": 2,
+          "psnr_db": 27.218551893254173,
+          "mse": 0.0018973393776529615,
+          "ssim": 0.40124351448514634
+        },
+        {
+          "group_id": "0197_009_IP_00100_00200_5500_L",
+          "images": 2,
+          "psnr_db": 29.462976972200046,
+          "mse": 0.001131624501765299,
+          "ssim": 0.580469209171377
+        },
+        {
+          "group_id": "0198_010_GP_00100_00200_5500_N",
+          "images": 2,
+          "psnr_db": 23.86453138877072,
+          "mse": 0.004107409744254203,
+          "ssim": 0.8918660737989035
+        },
+        {
+          "group_id": "0199_010_GP_00800_01600_5500_N",
+          "images": 2,
+          "psnr_db": 23.058596938234764,
+          "mse": 0.004944707889781423,
+          "ssim": 0.6257347519985454
+        }
+      ],
+      "learned_conv_macs_reduction_vs_B1": 0.9930245535714286
+    },
+    "B2_budget_003": {
+      "images": 14,
+      "groups": 7,
+      "scene_macro_psnr_db": 26.21373879246271,
+      "scene_macro_mse": 0.0026538557494820585,
+      "scene_macro_ssim": 0.5761715446751057,
+      "mean_of_image_median_full_path_seconds": 1.6036233318571338,
+      "median_of_image_median_full_path_seconds": 1.6163352392499064,
+      "mean_learned_conv_macs_per_image": 7926834322.285714,
+      "mean_estimated_learned_conv_flops_per_image": 15853668644.571428,
+      "per_scene": [
+        {
+          "group_id": "0192_009_IP_00100_00200_3200_N",
+          "images": 2,
+          "psnr_db": 25.247793851870536,
+          "mse": 0.002986899620248129,
+          "ssim": 0.7240166349225956
+        },
+        {
+          "group_id": "0194_009_IP_01600_04000_3200_N",
+          "images": 2,
+          "psnr_db": 26.534173192125543,
+          "mse": 0.002221174542198452,
+          "ssim": 0.4207123413908481
+        },
+        {
+          "group_id": "0195_009_IP_01600_04000_5500_L",
+          "images": 2,
+          "psnr_db": 27.643158585638268,
+          "mse": 0.0017206196076215113,
+          "ssim": 0.38127583261365683
+        },
+        {
+          "group_id": "0196_009_IP_00800_02000_5500_L",
+          "images": 2,
+          "psnr_db": 27.218551893254173,
+          "mse": 0.0018973393776529615,
+          "ssim": 0.40124351448514634
+        },
+        {
+          "group_id": "0197_009_IP_00100_00200_5500_L",
+          "images": 2,
+          "psnr_db": 29.522305535400953,
+          "mse": 0.0011162705966981804,
+          "ssim": 0.5861279525202532
+        },
+        {
+          "group_id": "0198_010_GP_00100_00200_5500_N",
+          "images": 2,
+          "psnr_db": 24.05145069273715,
+          "mse": 0.003934376163666958,
+          "ssim": 0.8913496889882077
+        },
+        {
+          "group_id": "0199_010_GP_00800_01600_5500_N",
+          "images": 2,
+          "psnr_db": 23.27873779621235,
+          "mse": 0.004700310338288216,
+          "ssim": 0.6284748478050324
+        }
+      ],
+      "learned_conv_macs_reduction_vs_B1": 0.9793317522321429
+    },
+    "B2_budget_005": {
+      "images": 14,
+      "groups": 7,
+      "scene_macro_psnr_db": 26.302804963273086,
+      "scene_macro_mse": 0.002578389561159098,
+      "scene_macro_ssim": 0.5788209532787306,
+      "mean_of_image_median_full_path_seconds": 1.5977714179643125,
+      "median_of_image_median_full_path_seconds": 1.6126305934998868,
+      "mean_learned_conv_macs_per_image": 13071384576.0,
+      "mean_estimated_learned_conv_flops_per_image": 26142769152.0,
+      "per_scene": [
+        {
+          "group_id": "0192_009_IP_00100_00200_3200_N",
+          "images": 2,
+          "psnr_db": 25.267098112476646,
+          "mse": 0.0029736529476266935,
+          "ssim": 0.725971879340148
+        },
+        {
+          "group_id": "0194_009_IP_01600_04000_3200_N",
+          "images": 2,
+          "psnr_db": 26.58840842513955,
+          "mse": 0.002193608764431206,
+          "ssim": 0.4295119637488062
+        },
+        {
+          "group_id": "0195_009_IP_01600_04000_5500_L",
+          "images": 2,
+          "psnr_db": 27.643158585638268,
+          "mse": 0.0017206196076215113,
+          "ssim": 0.38127583261365683
+        },
+        {
+          "group_id": "0196_009_IP_00800_02000_5500_L",
+          "images": 2,
+          "psnr_db": 27.218551893254173,
+          "mse": 0.0018973393776529615,
+          "ssim": 0.40124351448514634
+        },
+        {
+          "group_id": "0197_009_IP_00100_00200_5500_L",
+          "images": 2,
+          "psnr_db": 29.58298228294054,
+          "mse": 0.0011007833590545224,
+          "ssim": 0.5919064580462331
+        },
+        {
+          "group_id": "0198_010_GP_00100_00200_5500_N",
+          "images": 2,
+          "psnr_db": 24.30174811039729,
+          "mse": 0.0037140383619511733,
+          "ssim": 0.890668265103872
+        },
+        {
+          "group_id": "0199_010_GP_00800_01600_5500_N",
+          "images": 2,
+          "psnr_db": 23.517687333065176,
+          "mse": 0.004448684509775617,
+          "ssim": 0.6311687596132517
+        }
+      ],
+      "learned_conv_macs_reduction_vs_B1": 0.96591796875
+    },
+    "B2_budget_010": {
+      "images": 14,
+      "groups": 7,
+      "scene_macro_psnr_db": 26.432185787221986,
+      "scene_macro_mse": 0.0024802580460899187,
+      "scene_macro_ssim": 0.5848498688955194,
+      "mean_of_image_median_full_path_seconds": 1.6395575326786371,
+      "median_of_image_median_full_path_seconds": 1.6297332812500542,
+      "mean_learned_conv_macs_per_image": 24588435456.0,
+      "mean_estimated_learned_conv_flops_per_image": 49176870912.0,
+      "per_scene": [
+        {
+          "group_id": "0192_009_IP_00100_00200_3200_N",
+          "images": 2,
+          "psnr_db": 25.34981708576558,
+          "mse": 0.0029175498944325343,
+          "ssim": 0.7308958983159852
+        },
+        {
+          "group_id": "0194_009_IP_01600_04000_3200_N",
+          "images": 2,
+          "psnr_db": 26.705975896845455,
+          "mse": 0.0021350226171251794,
+          "ssim": 0.44842568119058007
+        },
+        {
+          "group_id": "0195_009_IP_01600_04000_5500_L",
+          "images": 2,
+          "psnr_db": 27.643158585638268,
+          "mse": 0.0017206196076215113,
+          "ssim": 0.38127583261365683
+        },
+        {
+          "group_id": "0196_009_IP_00800_02000_5500_L",
+          "images": 2,
+          "psnr_db": 27.218551893254173,
+          "mse": 0.0018973393776529615,
+          "ssim": 0.40124351448514634
+        },
+        {
+          "group_id": "0197_009_IP_00100_00200_5500_L",
+          "images": 2,
+          "psnr_db": 29.70696794459245,
+          "mse": 0.0010698015136191368,
+          "ssim": 0.6040925258634134
+        },
+        {
+          "group_id": "0198_010_GP_00100_00200_5500_N",
+          "images": 2,
+          "psnr_db": 24.49702193114514,
+          "mse": 0.0035512364455948285,
+          "ssim": 0.8887424547605418
+        },
+        {
+          "group_id": "0199_010_GP_00800_01600_5500_N",
+          "images": 2,
+          "psnr_db": 23.903807173312835,
+          "mse": 0.0040702368665832805,
+          "ssim": 0.6392731750393122
+        }
+      ],
+      "learned_conv_macs_reduction_vs_B1": 0.935888671875
+    },
+    "B2_budget_025": {
+      "images": 14,
+      "groups": 7,
+      "scene_macro_psnr_db": 26.42727423948147,
+      "scene_macro_mse": 0.002505944162171351,
+      "scene_macro_ssim": 0.600714955916387,
+      "mean_of_image_median_full_path_seconds": 1.737751102749932,
+      "median_of_image_median_full_path_seconds": 1.712021854499966,
+      "mean_learned_conv_macs_per_image": 52547715072.0,
+      "mean_estimated_learned_conv_flops_per_image": 105095430144.0,
+      "per_scene": [
+        {
+          "group_id": "0192_009_IP_00100_00200_3200_N",
+          "images": 2,
+          "psnr_db": 25.239022497054698,
+          "mse": 0.0029929382330956813,
+          "ssim": 0.7577760895875683
+        },
+        {
+          "group_id": "0194_009_IP_01600_04000_3200_N",
+          "images": 2,
+          "psnr_db": 26.949792246640467,
+          "mse": 0.002018463303886357,
+          "ssim": 0.48638258980012844
+        },
+        {
+          "group_id": "0195_009_IP_01600_04000_5500_L",
+          "images": 2,
+          "psnr_db": 27.643158585638268,
+          "mse": 0.0017206196076215113,
+          "ssim": 0.38127583261365683
+        },
+        {
+          "group_id": "0196_009_IP_00800_02000_5500_L",
+          "images": 2,
+          "psnr_db": 27.218551893254173,
+          "mse": 0.0018973393776529615,
+          "ssim": 0.40124351448514634
+        },
+        {
+          "group_id": "0197_009_IP_00100_00200_5500_L",
+          "images": 2,
+          "psnr_db": 29.831083851250682,
+          "mse": 0.001039666298048446,
+          "ssim": 0.6159010574613362
+        },
+        {
+          "group_id": "0198_010_GP_00100_00200_5500_N",
+          "images": 2,
+          "psnr_db": 24.27202148011,
+          "mse": 0.0037394905799900467,
+          "ssim": 0.8884239729254333
+        },
+        {
+          "group_id": "0199_010_GP_00800_01600_5500_N",
+          "images": 2,
+          "psnr_db": 23.837289122421996,
+          "mse": 0.004133091734904452,
+          "ssim": 0.6740016345414398
+        }
+      ],
+      "learned_conv_macs_reduction_vs_B1": 0.86298828125
+    },
+    "B2_budget_100": {
+      "images": 14,
+      "groups": 7,
+      "scene_macro_psnr_db": 26.243753290418255,
+      "scene_macro_mse": 0.002711386890005081,
+      "scene_macro_ssim": 0.6467820488515369,
+      "mean_of_image_median_full_path_seconds": 2.055159486678547,
+      "median_of_image_median_full_path_seconds": 1.7962611564999804,
+      "mean_learned_conv_macs_per_image": 153947255369.14285,
+      "mean_estimated_learned_conv_flops_per_image": 307894510738.2857,
+      "per_scene": [
+        {
+          "group_id": "0192_009_IP_00100_00200_3200_N",
+          "images": 2,
+          "psnr_db": 25.698649715158943,
+          "mse": 0.002692375995748324,
+          "ssim": 0.8674981000916597
+        },
+        {
+          "group_id": "0194_009_IP_01600_04000_3200_N",
+          "images": 2,
+          "psnr_db": 26.949792246640467,
+          "mse": 0.002018463303886357,
+          "ssim": 0.48638258980012844
+        },
+        {
+          "group_id": "0195_009_IP_01600_04000_5500_L",
+          "images": 2,
+          "psnr_db": 27.643158585638268,
+          "mse": 0.0017206196076215113,
+          "ssim": 0.38127583261365683
+        },
+        {
+          "group_id": "0196_009_IP_00800_02000_5500_L",
+          "images": 2,
+          "psnr_db": 27.218551893254173,
+          "mse": 0.0018973393776529615,
+          "ssim": 0.40124351448514634
+        },
+        {
+          "group_id": "0197_009_IP_00100_00200_5500_L",
+          "images": 2,
+          "psnr_db": 29.831083851250682,
+          "mse": 0.001039666298048446,
+          "ssim": 0.6159010574613362
+        },
+        {
+          "group_id": "0198_010_GP_00100_00200_5500_N",
+          "images": 2,
+          "psnr_db": 23.193538477335238,
+          "mse": 0.004793428036369066,
+          "ssim": 0.9045201005805066
+        },
+        {
+          "group_id": "0199_010_GP_00800_01600_5500_N",
+          "images": 2,
+          "psnr_db": 23.171498263650022,
+          "mse": 0.004817815610708903,
+          "ssim": 0.870653146928324
+        }
+      ],
+      "learned_conv_macs_reduction_vs_B1": 0.5986014229910714
+    }
+  },
+  "total_evaluation_seconds": 2860.530034834,
+  "peak_process_rss_bytes": 6734839808,
+  "peak_memory_scope": "process high-water RSS for entire multi-budget run; not a per-budget or accelerator-allocation peak",
+  "artifacts": {
+    "per_sample_csv": "per_sample_metrics.csv",
+    "per_scene_csv": "per_scene_metrics.csv"
+  }
+}

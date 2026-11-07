@@ -1,0 +1,66 @@
+{
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "python": "3.9.6",
+  "torch": "2.8.0",
+  "profile_split_sample": "0054_003_N6_00100_00160_5500_N:035",
+  "full_shape": [
+    3120,
+    4208
+  ],
+  "profile_repeats": 3,
+  "stages": {
+    "MAT RAW decode": {
+      "n": 3,
+      "median_ms": 4.708707999999895,
+      "mean_ms": 5.6289996666666715,
+      "min_ms": 4.644958000000088,
+      "max_ms": 7.533333000000031
+    },
+    "PNG RGB decode": {
+      "n": 3,
+      "median_ms": 113.077125,
+      "mean_ms": 113.21366666666661,
+      "min_ms": 112.8665419999999,
+      "max_ms": 113.69733299999996
+    },
+    "Bayer packing": {
+      "n": 3,
+      "median_ms": 8.972874999999991,
+      "mean_ms": 9.487666666666636,
+      "min_ms": 8.828666999999957,
+      "max_ms": 10.661457999999957
+    },
+    "Tensor conversion": {
+      "n": 3,
+      "median_ms": 45.61304199999982,
+      "mean_ms": 48.49322199999998,
+      "min_ms": 45.34833300000018,
+      "max_ms": 54.51829099999994
+    },
+    "Full-resolution dataset item": {
+      "n": 3,
+      "median_ms": 189.96524999999974,
+      "mean_ms": 189.6799443333333,
+      "min_ms": 188.31587500000003,
+      "max_ms": 190.75870800000015
+    },
+    "Train batch of 8 paired crops": {
+      "elapsed_ms": 1319.777792,
+      "input_shape": [
+        8,
+        4,
+        128,
+        128
+      ],
+      "target_shape": [
+        8,
+        3,
+        256,
+        256
+      ],
+      "batch_size": 8,
+      "workers": 0
+    }
+  },
+  "peak_process_rss_bytes": 1015136256
+}

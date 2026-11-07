@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://prism.invalid/schemas/dataset_sample.schema.json",
+  "title": "PRISM DataSample",
+  "type": "object",
+  "required": ["sample_id", "capture_id", "input_path", "input_representation", "target_representation", "alignment_verified", "split", "license_note"],
+  "properties": {
+    "sample_id": {"type": "string", "minLength": 1},
+    "capture_id": {"type": "string", "minLength": 1},
+    "scene_id": {"type": ["string", "null"]},
+    "camera_id": {"type": ["string", "null"]},
+    "input_path": {"type": "string", "minLength": 1},
+    "input_representation": {"enum": ["bayer_dng", "raw_rgb_mat", "other"]},
+    "target_path": {"type": ["string", "null"]},
+    "target_representation": {"enum": ["srgb", "linear_rgb", "raw_rgb", "none"]},
+    "alignment_verified": {"type": "boolean"},
+    "target_colour_space": {"type": ["string", "null"]},
+    "split": {"enum": ["train", "validation", "test", "calibration", "unassigned"]},
+    "metadata_path": {"type": ["string", "null"]},
+    "license_note": {"type": "string"},
+    "camera": {"type": ["string", "null"]},
+    "iso": {"type": ["integer", "null"], "minimum": 1},
+    "cfa_pattern": {"enum": ["RGGB", "BGGR", "GRBG", "GBRG", null]},
+    "width": {"type": ["integer", "null"], "minimum": 1},
+    "height": {"type": ["integer", "null"], "minimum": 1},
+    "bit_depth": {"type": ["integer", "null"], "minimum": 1},
+    "sha256": {"type": ["string", "null"]}
+  },
+  "additionalProperties": false
+}

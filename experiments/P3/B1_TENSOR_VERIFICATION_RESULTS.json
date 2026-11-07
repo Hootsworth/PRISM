@@ -1,0 +1,249 @@
+{
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "python": "3.9.6",
+  "torch": "2.8.0",
+  "duration_seconds": 74.33270558299999,
+  "peak_process_rss_bytes": 2103230464,
+  "sample_figures": [
+    {
+      "split": "train",
+      "path": "experiments/P3/visualizations/train_0001_001_S6_00100_00060_3200_L_034.png",
+      "sample_id": "0001_001_S6_00100_00060_3200_L:034",
+      "stats": {
+        "raw": {
+          "shape": [
+            256,
+            256
+          ],
+          "dtype": "float32",
+          "min": 0.007820136845111847,
+          "max": 0.14369501173496246,
+          "mean": 0.049877822399139404,
+          "std": 0.018424954265356064,
+          "finite_count": 65536,
+          "nan_count": 0,
+          "infinite_count": 0
+        },
+        "packed": {
+          "shape": [
+            4,
+            128,
+            128
+          ],
+          "dtype": "float32",
+          "min": 0.007820136845111847,
+          "max": 0.14369501173496246,
+          "mean": 0.04987781494855881,
+          "std": 0.018424954265356064,
+          "finite_count": 65536,
+          "nan_count": 0,
+          "infinite_count": 0
+        },
+        "target_uint8": {
+          "shape": [
+            256,
+            256,
+            3
+          ],
+          "dtype": "uint8",
+          "min": 43.0,
+          "max": 95.0,
+          "mean": 71.76358032226562,
+          "std": 7.43727183803853,
+          "finite_count": 196608,
+          "nan_count": 0,
+          "infinite_count": 0
+        }
+      }
+    },
+    {
+      "split": "validation",
+      "path": "experiments/P3/visualizations/validation_0054_003_N6_00100_00160_5500_N_035.png",
+      "sample_id": "0054_003_N6_00100_00160_5500_N:035",
+      "stats": {
+        "raw": {
+          "shape": [
+            3120,
+            4208
+          ],
+          "dtype": "float32",
+          "min": -0.008342023007571697,
+          "max": 0.6736183166503906,
+          "mean": 0.09570921212434769,
+          "std": 0.08580334484577179,
+          "finite_count": 13128960,
+          "nan_count": 0,
+          "infinite_count": 0
+        },
+        "packed": {
+          "shape": [
+            4,
+            1560,
+            2104
+          ],
+          "dtype": "float32",
+          "min": -0.008342023007571697,
+          "max": 0.6736183166503906,
+          "mean": 0.09570931643247604,
+          "std": 0.0858033299446106,
+          "finite_count": 13128960,
+          "nan_count": 0,
+          "infinite_count": 0
+        },
+        "target_uint8": {
+          "shape": [
+            3120,
+            4208,
+            3
+          ],
+          "dtype": "uint8",
+          "min": 0.0,
+          "max": 210.0,
+          "mean": 86.74364318778233,
+          "std": 39.86886425445869,
+          "finite_count": 39386880,
+          "nan_count": 0,
+          "infinite_count": 0
+        }
+      }
+    },
+    {
+      "split": "internal_test",
+      "path": "experiments/P3/visualizations/internal_test_0192_009_IP_00100_00200_3200_N_076.png",
+      "sample_id": "0192_009_IP_00100_00200_3200_N:076",
+      "stats": {
+        "raw": {
+          "shape": [
+            3024,
+            4032
+          ],
+          "dtype": "float32",
+          "min": -0.013737033121287823,
+          "max": 1.0,
+          "mean": 0.11281604319810867,
+          "std": 0.11333921551704407,
+          "finite_count": 12192768,
+          "nan_count": 0,
+          "infinite_count": 0
+        },
+        "packed": {
+          "shape": [
+            4,
+            1512,
+            2016
+          ],
+          "dtype": "float32",
+          "min": -0.013737033121287823,
+          "max": 1.0,
+          "mean": 0.1128159835934639,
+          "std": 0.11333922296762466,
+          "finite_count": 12192768,
+          "nan_count": 0,
+          "infinite_count": 0
+        },
+        "target_uint8": {
+          "shape": [
+            3024,
+            4032,
+            3
+          ],
+          "dtype": "uint8",
+          "min": 0.0,
+          "max": 255.0,
+          "mean": 97.53802259393984,
+          "std": 50.280017125523216,
+          "finite_count": 36578304,
+          "nan_count": 0,
+          "infinite_count": 0
+        }
+      }
+    },
+    {
+      "split": "official_test",
+      "path": "experiments/P3/visualizations/official_test_0020_block00.png",
+      "sample_id": "0020:block00",
+      "stats": {
+        "raw": {
+          "shape": [
+            256,
+            256
+          ],
+          "dtype": "float32",
+          "min": 0.016940318048000336,
+          "max": 1.0,
+          "mean": 0.3171427845954895,
+          "std": 0.17661936581134796,
+          "finite_count": 65536,
+          "nan_count": 0,
+          "infinite_count": 0
+        },
+        "packed": {
+          "shape": [
+            4,
+            128,
+            128
+          ],
+          "dtype": "float32",
+          "min": 0.016940318048000336,
+          "max": 1.0,
+          "mean": 0.3171428442001343,
+          "std": 0.17661936581134796,
+          "finite_count": 65536,
+          "nan_count": 0,
+          "infinite_count": 0
+        },
+        "target_uint8": {
+          "shape": [
+            256,
+            256,
+            3
+          ],
+          "dtype": "uint8",
+          "min": 58.0,
+          "max": 255.0,
+          "mean": 174.20635986328125,
+          "std": 59.4562741089835,
+          "finite_count": 196608,
+          "nan_count": 0,
+          "infinite_count": 0
+        }
+      }
+    }
+  ],
+  "all_sample_counts": {
+    "train": 192,
+    "validation": 24,
+    "internal_test": 14,
+    "official_test": 928
+  },
+  "raw_range_summary": {
+    "train": {
+      "minimum": -0.06673618406057358,
+      "maximum": 1.0,
+      "negative_count": 100038619,
+      "overrange_gt1_count": 0,
+      "value_count": 2537778432
+    },
+    "validation": {
+      "minimum": -0.06673618406057358,
+      "maximum": 1.0,
+      "negative_count": 18033820,
+      "overrange_gt1_count": 0,
+      "value_count": 304505856
+    },
+    "internal_test": {
+      "minimum": -0.05082095414400101,
+      "maximum": 1.0,
+      "negative_count": 11748265,
+      "overrange_gt1_count": 0,
+      "value_count": 171086592
+    },
+    "official_test": {
+      "minimum": -0.06673618406057358,
+      "maximum": 1.0,
+      "negative_count": 3898638,
+      "overrange_gt1_count": 0,
+      "value_count": 60817408
+    }
+  }
+}

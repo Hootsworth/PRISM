@@ -1,0 +1,37 @@
+{
+  "split": "internal_test",
+  "checkpoint": "/Users/adityadixit/Downloads/PRISM_P2_Updated_Build_Pack/experiments/P3/runs/B1-test-gpu/best.pt",
+  "checkpoint_epoch": 2,
+  "checkpoint_sha256": "6940e82b0aa313858a3e995bb5284f037f913378c0008562e4b30a5e951e6f9d",
+  "device": "mps",
+  "budget_fraction": 0.5,
+  "models": {
+    "B0_Classical": {
+      "scene_macro_psnr_db": 26.075117616374,
+      "scene_macro_ssim": 0.5721170774476663,
+      "scene_macro_mse": 0.0027698249814239943,
+      "mean_latency_seconds": 1.4907963510714322,
+      "mean_refinement_pct": 0.0,
+      "images_evaluated": 14
+    },
+    "B1_Learned": {
+      "scene_macro_psnr_db": 13.46343548460425,
+      "scene_macro_ssim": 0.42302974683413347,
+      "scene_macro_mse": 0.05172504319117011,
+      "mean_latency_seconds": 0.8996657439285691,
+      "mean_refinement_pct": 100.0,
+      "images_evaluated": 14
+    },
+    "B2_PRISM_Hybrid": {
+      "scene_macro_psnr_db": 24.7077318497033,
+      "scene_macro_ssim": 0.5663043680474754,
+      "scene_macro_mse": 0.00452273300693646,
+      "mean_latency_seconds": 2.071145425714285,
+      "mean_refinement_pct": 3.3482142857142856,
+      "images_evaluated": 14
+    }
+  },
+  "total_evaluation_seconds": 180.817291166,
+  "peak_process_rss_bytes": 6800572416,
+  "finished_at": "2026-11-06T22:08:13+0530"
+}
